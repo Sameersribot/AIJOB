@@ -15,7 +15,7 @@ declare global {
   }
 }
 
-const API_BASE_URL = 'http://localhost:5000/api';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 export const loadRazorpayScript = (): Promise<boolean> => {
   return new Promise((resolve) => {
@@ -114,22 +114,22 @@ export const initializePayment = async (options: PaymentOptions): Promise<void> 
             throw new Error('Invalid payment signature');
           }
 
-          // Extract plan name from the description and normalize it
-          const planName = options.description.split(' - ')[0].trim();
+          // Extract plan details and billing period from the description
+          const [planName, planInfo] = options.description.split(' - ');
+          const billingPeriod = planInfo.includes('(quater)') ? 'quater' : 'monthly';
           
-          // Define plan details with exact matching names from the pricing page
-          const planDetails: Record<string, { limit: number, days: number }> = {
-            'Basic Plan': { limit: 10, days: 30 },
-            'Pro Plan': { limit: 100, days: 30 },
-            'Enterprise Plan': { limit: 1000, days: 30 }
+          const planDetails = {
+            Basic: { limit: 25, days: billingPeriod === 'quater' ? 90 : 30 },
+            Pro: { limit: 60, days: billingPeriod === 'quater' ? 90 : 30 },
+            Ultra: { limit: 1000, days: billingPeriod === 'quater' ? 90 : 30 }
           };
 
-          const plan = planDetails[planName];
+          const plan = planDetails[planName.replace(' Plan', '') as keyof typeof planDetails];
           if (!plan) {
-            throw new Error(`Invalid plan selected: ${planName}`);
+            throw new Error('Invalid plan selected');
           }
 
-          // Calculate subscription end date
+          // Calculate subscription end date based on billing period
           const endDate = new Date();
           endDate.setDate(endDate.getDate() + plan.days);
 
@@ -155,7 +155,7 @@ export const initializePayment = async (options: PaymentOptions): Promise<void> 
             .from('user_subscriptions')
             .upsert({
               user_id: user.id,
-              plan_name: planName,
+              plan_name: planName.replace(' Plan', ''),
               applications_limit: plan.limit,
               start_date: new Date().toISOString(),
               end_date: endDate.toISOString(),

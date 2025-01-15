@@ -13,15 +13,15 @@ export default function Contact() {
           <div className="space-y-6">
             <div className="flex items-center space-x-4">
               <Mail className="h-6 w-6" />
-              <span>support@jobai.com</span>
+              <span>support@ovalpod.com</span>
             </div>
             <div className="flex items-center space-x-4">
               <Phone className="h-6 w-6" />
-              <span>+1 (555) 123-4567</span>
+              <span>+91 9889076248</span>
             </div>
             <div className="flex items-center space-x-4">
               <MapPin className="h-6 w-6" />
-              <span>123 AI Street, San Francisco, CA 94105</span>
+              <span>C-5 Avas Vikas, Unnao IN 209801</span>
             </div>
           </div>
         </div>

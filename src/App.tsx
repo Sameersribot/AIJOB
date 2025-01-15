@@ -8,6 +8,8 @@ import { UserProvider } from './context/UserContext';
 import { useUser } from './context/UserContext';
 import { useEffect } from 'react';
 import { supabase } from './lib/supabase';
+import PrivacyPolicy from './pages/privacy';
+import TermsConditions from './pages/terms';
 
 // Protected route component
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -66,6 +68,8 @@ function AppRoutes() {
       <Route path="/" element={<Home />} />
       <Route path="/pricing" element={<Pricing />} />
       <Route path="/contact" element={<Contact />} />
+      <Route path='/privacy' element={<PrivacyPolicy />}/>
+      <Route path='/terms' element={<TermsConditions />}/>
       <Route path="/auth/callback" element={<AuthCallback />} />
       <Route
         path="/profile"

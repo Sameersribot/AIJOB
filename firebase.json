@@ -1,0 +1,17 @@
+{
+  "hosting": {
+    "public": "dist",
+    "site": "ovalpod-64a43-c6951",
+    "ignore": [
+      "firebase.json",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
+  
+  }
+}

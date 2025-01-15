@@ -10,7 +10,11 @@ const app = express();
 
 // Configure CORS to accept requests from your frontend
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://localhost:4173'], // Vite dev and preview ports
+  origin: ['http://localhost:5173',
+    'http://localhost:4173',
+  'https://ovalpod.com',
+    'https://www.ovalpod.com'
+  ], // Vite dev and preview ports
   methods: ['GET', 'POST'],
   credentials: true
 }));
