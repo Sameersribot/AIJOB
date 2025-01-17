@@ -45,6 +45,7 @@ CREATE TABLE IF NOT EXISTS job_applications (
   user_id uuid REFERENCES auth.users NOT NULL,
   company_name text NOT NULL,
   job_title text NOT NULL,
+  job text NOT NULL DEFAULT "NA",
   status text NOT NULL DEFAULT 'applied',
   applied_date timestamptz DEFAULT now(),
   created_at timestamptz DEFAULT now()

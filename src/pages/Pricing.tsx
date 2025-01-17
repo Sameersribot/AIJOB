@@ -5,7 +5,7 @@ import PricingCard from '../components/pricing/PricingCard';
 const monthlyPlans = [
   {
     name: 'Basic',
-    price: '₹599',
+    price: '₹499',
     description: 'Perfect for individuals starting their job search',
     features: [
       '25 AI-optimized applications per month',
@@ -30,7 +30,7 @@ const monthlyPlans = [
   {
     name: 'Ultra',
     price: '₹2999',
-    description: 'For Urjent Job need',
+    description: 'For Urgent Job need',
     features: [
       'All Pro features',
       'Custom AI training',

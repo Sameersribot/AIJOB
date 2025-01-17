@@ -28,6 +28,8 @@ CREATE TABLE IF NOT EXISTS user_profiles (
   preferred_location text NOT NULL,
   resume_url text,
   created_at timestamptz DEFAULT now(),
+  skills text NOT NULL,
+  years_of_experience integer NOT NULL,
   UNIQUE(user_id)
 );
 

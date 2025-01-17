@@ -25,6 +25,7 @@ const TermsConditions = () => {
          <li>From time to time our website may also include links to other websites. These links are provided for your convenience to provide further information.
 
 </li>
+<li>We (Ovalpod Technologies) don't assure getting a job after purchasing any of our plans.</li>
          <li>You may not create a link to our website from another website or document without Sameer Srivastava’s prior written consent.
 
 </li>

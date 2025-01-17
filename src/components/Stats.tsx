@@ -7,7 +7,7 @@ export default function Stats() {
             <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
             <div className="relative text-center">
               <div className="text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white via-gray-300 to-white">100K+</div>
-              <div className="text-gray-300 text-lg">Jobs Analyzed Daily</div>
+              <div className="text-gray-300 text-lg">Jobs Analyzed</div>
             </div>
           </div>
           <div className="relative group">
