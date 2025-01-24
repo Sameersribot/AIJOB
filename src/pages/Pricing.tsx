@@ -67,7 +67,7 @@ export default function Pricing() {
             <Zap className="h-6 w-6 text-blue-600" />
             <span className="text-blue-600 font-semibold">Pricing Plans</span>
           </div>
-          <h1 className="text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-gray-700 to-gray-900">
+          <h1 className="text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-gray-700 to-gray-900 py-2">
             Simple, Transparent Pricing
           </h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">

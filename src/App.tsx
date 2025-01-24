@@ -10,6 +10,7 @@ import { useEffect } from 'react';
 import { supabase } from './lib/supabase';
 import PrivacyPolicy from './pages/privacy';
 import TermsConditions from './pages/terms';
+import Aboutus from './pages/Aboutus';
 
 // Protected route component
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -70,6 +71,7 @@ function AppRoutes() {
       <Route path="/contact" element={<Contact />} />
       <Route path='/privacy' element={<PrivacyPolicy />}/>
       <Route path='/terms' element={<TermsConditions />}/>
+      <Route path='/aboutus' element={<Aboutus />}/>
       <Route path="/auth/callback" element={<AuthCallback />} />
       <Route
         path="/profile"
