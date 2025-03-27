@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS payments (
   order_id text NOT NULL,
   signature text NOT NULL,
   amount numeric NOT NULL,
+  currency text NOT NULL,
   status text NOT NULL,
   created_at timestamptz DEFAULT now()
 );

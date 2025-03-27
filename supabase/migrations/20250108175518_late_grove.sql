@@ -26,6 +26,7 @@ CREATE TABLE IF NOT EXISTS user_profiles (
   phone text NOT NULL,
   address text NOT NULL,
   preferred_location text NOT NULL,
+  linkedinUrl text NOT NULL,
   resume_url text,
   created_at timestamptz DEFAULT now(),
   skills text NOT NULL,

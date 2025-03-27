@@ -1,35 +1,100 @@
-import { Bot, LogOut, User as UserIcon, Menu, X } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { LogOut, User as UserIcon, Menu, X } from 'lucide-react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import AuthModal from './auth/AuthModal';
 import { useUser } from '../context/UserContext';
 import { supabase } from '../lib/supabase';
+import Logo from './Logo';
 
 export default function Navbar() {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { user } = useUser();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [location]);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
     navigate('/');
   };
 
+  const navLinks = [
+    { path: '/', label: 'Home' },
+    { path: '/pricing', label: 'Pricing' },
+    { path: '/contact', label: 'Contact' }
+  ];
+
   return (
     <>
-      <nav className="border-b relative bg-white">
+      <nav className="bg-white/80 backdrop-blur-xl fixed w-full z-50 top-0 left-0 border-b border-gray-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16 items-center">
-            <Link to="/" className="flex items-center space-x-2">
-            <img src="/favicon.svg" alt="OvalPod Logo" className="h-8 w-8" />
-            <span className="font-bold text-xl">Ovalpod</span>
-            </Link>
+          <div className="flex justify-between h-20 items-center">
+            <Logo />
             
-            {/* Mobile menu button */}
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex items-center space-x-12">
+              <div className="flex space-x-10">
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.path}
+                    to={link.path}
+                    className={`relative py-2 text-sm font-medium transition-all duration-300
+                      ${location.pathname === link.path 
+                        ? 'text-gray-900' 
+                        : 'text-gray-600 hover:text-gray-900'}
+                      after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-full 
+                      after:origin-left after:scale-x-0 after:bg-gradient-to-r 
+                      after:from-black after:to-black after:transition-transform 
+                      hover:after:scale-x-100
+                      ${location.pathname === link.path ? 'after:scale-x-100' : ''}`}
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
+              
+              {user ? (
+                <div className="flex items-center space-x-8">
+                  <Link 
+                    to="/profile" 
+                    className="flex items-center space-x-3 group px-4 py-2 rounded-full hover:bg-gray-50 transition-all duration-300"
+                  >
+                    <div className="relative w-8 h-8 bg-gradient-to-r from-black to-black rounded-full flex items-center justify-center">
+                      <UserIcon className="h-4 w-4 text-gray-700 group-hover:scale-110 transition-transform duration-300" />
+                    </div>
+                    <span className="text-sm font-medium text-gray-700 group-hover:text-gray-900">{user.email}</span>
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="flex items-center space-x-2 text-gray-600 hover:text-gray-900 transition-colors group"
+                  >
+                    <LogOut className="h-5 w-5 group-hover:rotate-12 transition-transform duration-300" />
+                    <span className="text-sm font-medium">Logout</span>
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={() => setIsAuthModalOpen(true)}
+                  className="px-6 py-2.5 rounded-full bg-gradient-to-r from-black to-black text-white 
+                    hover:from-gray-900 hover:to-black transition-all duration-300 text-sm font-medium 
+                    flex items-center space-x-2 group shadow-lg shadow-gray-500/20 hover:shadow-gray-500/30"
+                >
+                  <span>Log In</span>
+                  <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+              )}
+            </div>
+
+            {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden p-2 rounded-md hover:bg-gray-100"
+              className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
             >
               {isMobileMenuOpen ? (
                 <X className="h-6 w-6" />
@@ -37,94 +102,54 @@ export default function Navbar() {
                 <Menu className="h-6 w-6" />
               )}
             </button>
-            
-            <div className="hidden md:flex items-center space-x-8">
-              <div className="flex space-x-8">
-                <Link to="/" className="hover:text-gray-600">Home</Link>
-                <Link to="/pricing" className="hover:text-gray-600">Pricing</Link>
-                <Link to="/contact" className="hover:text-gray-600">Contact</Link>
-              </div>
+          </div>
+        </div>
+
+        {/* Mobile Menu */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden bg-white/95 backdrop-blur-xl border-t border-gray-200/80">
+            <div className="px-4 py-6 space-y-4">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  className={`block py-2 text-base font-medium transition-colors duration-300
+                    ${location.pathname === link.path 
+                      ? 'text-gray-900' 
+                      : 'text-gray-600 hover:text-gray-900'}`}
+                >
+                  {link.label}
+                </Link>
+              ))}
               
               {user ? (
-                <div className="flex items-center space-x-4">
-                  <Link to="/profile" className="flex items-center space-x-2 hover:text-gray-600">
-                    <UserIcon className="h-5 w-5" />
-                    <span className="truncate max-w-[150px]">{user.email}</span>
+                <div className="pt-4 border-t border-gray-200/80">
+                  <Link 
+                    to="/profile"
+                    className="flex items-center space-x-3 py-2 text-gray-700 group"
+                  >
+                    <div className="relative w-8 h-8 bg-gradient-to-r from-black to-black rounded-full flex items-center justify-center">
+                      <UserIcon className="h-4 w-4 text-gray-700 group-hover:scale-110 transition-transform duration-300" />
+                    </div>
+                    <span className="text-base font-medium group-hover:text-gray-900">{user.email}</span>
                   </Link>
                   <button
                     onClick={handleLogout}
-                    className="flex items-center space-x-2 text-gray-600 hover:text-gray-800"
+                    className="flex items-center space-x-2 py-2 text-gray-600 w-full group"
                   >
-                    <LogOut className="h-5 w-5" />
-                    <span>Logout</span>
+                    <LogOut className="h-5 w-5 group-hover:rotate-12 transition-transform duration-300" />
+                    <span className="text-base font-medium group-hover:text-gray-900">Logout</span>
                   </button>
                 </div>
               ) : (
                 <button
-                  onClick={() => setIsAuthModalOpen(true)}
-                  className="px-4 py-2 rounded-lg bg-black text-white hover:bg-gray-800 transition-colors"
-                >
-                  Log In
-                </button>
-              )}
-            </div>
-          </div>
-        </div>
-
-        {/* Mobile menu */}
-        {isMobileMenuOpen && (
-          <div className="md:hidden absolute top-16 inset-x-0 bg-white border-b shadow-lg z-50">
-            <div className="px-4 py-2 space-y-2">
-              <Link 
-                to="/" 
-                className="block py-2 hover:text-gray-600"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Home
-              </Link>
-              <Link 
-                to="/pricing" 
-                className="block py-2 hover:text-gray-600"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Pricing
-              </Link>
-              <Link 
-                to="/contact" 
-                className="block py-2 hover:text-gray-600"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Contact
-              </Link>
-              
-              {user ? (
-                <>
-                  <Link 
-                    to="/profile" 
-                    className="flex items-center space-x-2 py-2 hover:text-gray-600"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    <UserIcon className="h-5 w-5" />
-                    <span className="truncate">{user.email}</span>
-                  </Link>
-                  <button
-                    onClick={() => {
-                      handleLogout();
-                      setIsMobileMenuOpen(false);
-                    }}
-                    className="flex items-center space-x-2 text-gray-600 hover:text-gray-800 py-2 w-full text-left"
-                  >
-                    <LogOut className="h-5 w-5" />
-                    <span>Logout</span>
-                  </button>
-                </>
-              ) : (
-                <button
                   onClick={() => {
-                    setIsAuthModalOpen(true);
                     setIsMobileMenuOpen(false);
+                    setIsAuthModalOpen(true);
                   }}
-                  className="w-full px-4 py-2 rounded-lg bg-black text-white hover:bg-gray-800 transition-colors"
+                  className="w-full px-6 py-3 rounded-lg bg-gradient-to-r from-black to-black text-white 
+                    hover:from-gray-900 hover:to-black transition-all duration-300 text-base font-medium 
+                    shadow-lg shadow-gray-500/20 hover:shadow-gray-500/30"
                 >
                   Log In
                 </button>
@@ -133,6 +158,9 @@ export default function Navbar() {
           </div>
         )}
       </nav>
+
+      {/* Add padding to account for fixed header */}
+      <div className="h-20"></div>
 
       <AuthModal
         isOpen={isAuthModalOpen}

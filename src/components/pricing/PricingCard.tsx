@@ -9,15 +9,16 @@ interface PricingCardProps {
   description: string;
   popular?: boolean;
   isquater?: boolean;
-}
+  currency: string;}
 
 export default function PricingCard({ 
-  name, 
-  price, 
-  features, 
-  description, 
-  popular = false,
-  isquater = false 
+  name,
+  price,
+  features,
+  description,
+  popular,
+  isquater,
+  currency
 }: PricingCardProps) {
   const { handlePayment, isLoading } = useRazorpay();
   const { user } = useUser();
@@ -39,7 +40,8 @@ export default function PricingCard({
         name, 
         price, 
         description,
-        billingPeriod: isquater ? 'quater' : 'monthly'
+        billingPeriod: isquater ? 'quarter' : 'monthly',
+        currency
       });
     } catch (error) {
       console.error('Subscription error:', error);

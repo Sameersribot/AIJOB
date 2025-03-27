@@ -8,6 +8,7 @@ interface UserProfile {
   phone: string;
   address: string;
   preferred_location: string;
+  linkedinUrl: string;
   skills: string;
   years_of_experience: number;
   resume_url: string | null;
@@ -23,6 +24,7 @@ export default function UserProfileForm() {
     phone: '',
     address: '',
     preferredLocation: '',
+    linkedinUrl: '',
     skills: '',
     yearsOfExperience: '',
     resume: null as File | null
@@ -53,6 +55,7 @@ export default function UserProfileForm() {
           phone: data.phone,
           address: data.address,
           preferredLocation: data.preferred_location,
+          linkedinUrl: data.linkedinUrl,
           skills: data.skills || '',
           yearsOfExperience: data.years_of_experience?.toString() || '',
           resume: null
@@ -121,6 +124,7 @@ export default function UserProfileForm() {
           phone: formData.phone,
           address: formData.address,
           preferred_location: formData.preferredLocation,
+          linkedinUrl: formData.linkedinUrl,
           skills: formData.skills,
           years_of_experience: parseInt(formData.yearsOfExperience),
           resume_url: resumeUrl || null
@@ -135,7 +139,22 @@ export default function UserProfileForm() {
       await fetchProfile();
       setIsEditing(false);
       alert('Profile saved successfully!');
-    } catch (error) {
+
+
+      // Send to webhook after successful save
+      await fetch('https://hook.eu2.make.com/eviahzne8sti2td3vxwqqoywxri9gaju', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ resume_url: resumeUrl }),
+      });
+  
+      alert('Profile saved successfully!');
+    } 
+  
+  
+    catch (error) {
       console.error('Error saving profile:', error);
       alert(error instanceof Error ? error.message : 'Error saving profile. Please try again.');
     } finally {
@@ -215,6 +234,10 @@ export default function UserProfileForm() {
           <div>
             <h3 className="text-sm font-medium text-gray-500">Preferred Location</h3>
             <p className="mt-1">{profile.preferred_location}</p>
+          </div>
+          <div>
+            <h3 className="text-sm font-medium text-gray-500">Linkedin Profile Url</h3>
+            <p className="mt-1">{profile.linkedinUrl}</p>
           </div>
           <div>
             <h3 className="text-sm font-medium text-gray-500">Skills</h3>
@@ -334,6 +357,20 @@ export default function UserProfileForm() {
             className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-gray-200"
             value={formData.preferredLocation}
             onChange={(e) => setFormData(prev => ({ ...prev, preferredLocation: e.target.value }))}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="linkedinUrl" className="block text-sm font-medium text-gray-700 mb-1">
+            Linkedin Profile Url
+          </label>
+          <input
+            type="text"
+            id="linkedinUrl"
+            required
+            className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-gray-200"
+            value={formData.linkedinUrl}
+            onChange={(e) => setFormData(prev => ({ ...prev, linkedinUrl: e.target.value }))}
           />
         </div>
 
