@@ -420,7 +420,7 @@ declare global {
   }
 }
 
-const API_BASE_URL = import.meta.env.VITE_API_URL;
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 export const loadRazorpayScript = (): Promise<boolean> => {
   return new Promise((resolve) => {
@@ -548,7 +548,7 @@ export const initializePayment = async (options: PaymentOptions): Promise<void> 
     const planLimits = {
       'Basic Plan': { limit: 25 },
       'Pro Plan': { limit: 60 },
-      'Ultra Plan': { limit: 100 }
+      'Ultra Plan': { limit: 1000 }
     };
 
     const planDetails = {

@@ -15,7 +15,6 @@ const Aboutus = () => {
         We specialize in developing AI tools that make life easier. Our flagship service automates job applications, helping users save time and focus on their goals.
         </p>
         <p>Email: support@ovalpod.com
-            sameersrivastava5056@gmail.com
         </p>
       </div>
     );
