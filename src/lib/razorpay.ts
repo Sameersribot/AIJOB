@@ -420,7 +420,7 @@ declare global {
   }
 }
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const API_BASE_URL = import.meta.env.VITE_API_URL;
 
 export const loadRazorpayScript = (): Promise<boolean> => {
   return new Promise((resolve) => {
@@ -518,7 +518,7 @@ export const initializePayment = async (options: PaymentOptions): Promise<void> 
       throw new Error('Please log in to make a payment');
     }
 
-    if (!import.meta.env.RAZORPAY_KEY_ID) {
+    if (!import.meta.env.VITE_RAZORPAY_KEY_ID) {
       throw new Error('Payment gateway configuration is missing');
     }
 
@@ -558,7 +558,7 @@ export const initializePayment = async (options: PaymentOptions): Promise<void> 
     };
 
     const razorpay = new window.Razorpay({
-      key: import.meta.env.RAZORPAY_KEY_ID,
+      key: import.meta.env.VITE_RAZORPAY_KEY_ID,
       amount: orderData.amount,
       currency: orderData.currency,
       name: options.name,

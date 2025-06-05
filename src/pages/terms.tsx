@@ -26,6 +26,8 @@ const TermsConditions = () => {
 
 </li>
 <li>We (Ovalpod Technologies) don't assure getting a job after purchasing any of our plans.</li>
+<li>By purchasing any of our plans and creating a profile, you hereby grant Ovalpod Technologies the explicit right to apply to jobs and create profiles on your behalf, including making reasonable modifications to the information provided by you.</li>
+
          <li>You may not create a link to our website from another website or document without Sameer Srivastava’s prior written consent.
 
 </li>
