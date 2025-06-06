@@ -518,7 +518,7 @@ export const initializePayment = async (options: PaymentOptions): Promise<void> 
       throw new Error('Please log in to make a payment');
     }
 
-    if (!import.meta.env.VITE_RAZORPAY_KEY_ID) {
+    if (!import.meta.env.RAZORPAY_KEY_ID) {
       throw new Error('Payment gateway configuration is missing');
     }
 
@@ -546,7 +546,7 @@ export const initializePayment = async (options: PaymentOptions): Promise<void> 
     const billingPeriod = planInfo.includes('(quarter)') ? 'quarter' : 'monthly';
     
     const planLimits = {
-      'Basic Plan': { limit: 25 },
+      'Basic Plan': { limit: 30 },
       'Pro Plan': { limit: 60 },
       'Ultra Plan': { limit: 1000 }
     };
@@ -558,7 +558,7 @@ export const initializePayment = async (options: PaymentOptions): Promise<void> 
     };
 
     const razorpay = new window.Razorpay({
-      key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+      key: import.meta.env.RAZORPAY_KEY_ID,
       amount: orderData.amount,
       currency: orderData.currency,
       name: options.name,
