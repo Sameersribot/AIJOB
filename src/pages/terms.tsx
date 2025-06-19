@@ -7,7 +7,7 @@ const TermsConditions = () => {
 
 
         </p>
-        <h2 className="text-2xl font-bold mt-6 mb-4">Last Updated on Jan 9 2025</h2>
+        <h2 className="text-2xl font-bold mt-6 mb-4">Last Updated on June 8 2025</h2>
      <p className="mb-4">
      Your use of the website and/or purchase from us are governed by following Terms and Conditions:
        <ul className="list-disc pl-6">

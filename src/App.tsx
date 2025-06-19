@@ -12,6 +12,7 @@ import { supabase } from './lib/supabase';
 import PrivacyPolicy from './pages/privacy';
 import TermsConditions from './pages/terms';
 import Aboutus from './pages/Aboutus';
+import PasswordResetForm from './components/auth/PasswordResetForm';
 
 // Protected route component
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -73,6 +74,7 @@ function AppRoutes() {
       <Route path='/privacy' element={<PrivacyPolicy />}/>
       <Route path='/terms' element={<TermsConditions />}/>
       <Route path='/aboutus' element={<Aboutus />}/>
+      <Route path="auth/reset-password" element={<PasswordResetForm />} />
       <Route path="/auth/callback" element={<AuthCallback />} />
       <Route
         path="/profile"
