@@ -81,19 +81,40 @@ export default function ResumeUpload() {
     setUploadStatus({ type: 'uploading', message: 'Processing your resume...' });
 
     try {
-      // Create FormData to send the file
-      const formData = new FormData();
-      formData.append('resume', selectedFile);
-      formData.append('user_email', user.email || '');
-      formData.append('user_id', user.id);
-      formData.append('file_name', selectedFile.name);
-      formData.append('file_size', selectedFile.size.toString());
-      formData.append('upload_timestamp', new Date().toISOString());
+      // Convert file to base64
+      const fileReader = new FileReader();
+      const base64Promise = new Promise<string>((resolve, reject) => {
+        fileReader.onload = () => {
+          const result = fileReader.result as string;
+          // Remove the data URL prefix (e.g., "data:application/pdf;base64,")
+          const base64Data = result.split(',')[1];
+          resolve(base64Data);
+        };
+        fileReader.onerror = reject;
+        fileReader.readAsDataURL(selectedFile);
+      });
+
+      const base64Data = await base64Promise;
+
+      // Create JSON payload with base64 data
+      const payload = {
+        user_email: user.email || '',
+        user_id: user.id,
+        file_name: selectedFile.name,
+        file_size: selectedFile.size,
+        file_type: selectedFile.type,
+        upload_timestamp: new Date().toISOString(),
+        resume_data: base64Data,
+        resume_base64: `data:${selectedFile.type};base64,${base64Data}`
+      };
 
       // Send to webhook
       const response = await fetch('https://hook.eu2.make.com/1jeljoecqqbihuwfx8el1fhl7fi5urft', {
         method: 'POST',
-        body: formData,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
       });
 
       if (!response.ok) {
