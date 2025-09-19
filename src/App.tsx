@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import Pricing from './pages/Pricing';
 import Contact from './pages/Contact';
 import Profile from './pages/Profile';
+import ResumeUpload from './pages/ResumeUpload';
 import { UserProvider } from './context/UserContext';
 import { useUser } from './context/UserContext';
 import { useEffect } from 'react';
@@ -74,6 +75,7 @@ function AppRoutes() {
       <Route path='/privacy' element={<PrivacyPolicy />}/>
       <Route path='/terms' element={<TermsConditions />}/>
       <Route path='/aboutus' element={<Aboutus />}/>
+      <Route path="/upload-resume" element={<ResumeUpload />} />
       <Route path="auth/reset-password" element={<PasswordResetForm />} />
       <Route path="/auth/callback" element={<AuthCallback />} />
       <Route
